@@ -5,6 +5,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+
+import java.awt.*;
+import java.awt.print.Book;
+
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 /*
 # 상황
@@ -31,7 +39,14 @@ class SpringTddStartApplicationTests {
 	}
 
 	@Test
-	void test1(){
-		System.out.println("test1");
+	void test_getBook(){
+		given()
+				.accept(MediaType.APPLICATION_JSON_VALUE).
+		when()
+				.get("/book/1")
+		.then()
+				.log().all()
+				.statusCode(HttpStatus.OK.value())
+				.assertThat().body("name", equalTo("테스트주도개발"));
 	}
 }
