@@ -34,16 +34,15 @@ class SpringTddStartApplicationTests {
 
 	@BeforeEach
 	void setUp() {
-		System.out.println("port: " + port);
 		RestAssured.port = port;
 	}
 
 	@Test
 	void test_getBook(){
 		given()
-				.accept(MediaType.APPLICATION_JSON_VALUE).
-		when()
-				.get("/book/1")
+				.accept(MediaType.APPLICATION_JSON.toString())
+		.when()
+				.get("/books/1")
 		.then()
 				.log().all()
 				.statusCode(HttpStatus.OK.value())
