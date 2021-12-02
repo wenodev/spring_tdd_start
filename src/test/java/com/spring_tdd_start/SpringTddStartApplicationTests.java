@@ -1,6 +1,7 @@
 package com.spring_tdd_start;
 
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,9 +41,10 @@ class SpringTddStartApplicationTests {
 	@Test
 	void test_getBook(){
 		given()
-				.accept(MediaType.APPLICATION_JSON.toString())
+				.contentType(ContentType.JSON)
+				.param("id", 1)
 		.when()
-				.get("/books/1")
+				.get("/books/" + 1)
 		.then()
 				.log().all()
 				.statusCode(HttpStatus.OK.value())

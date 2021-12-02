@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
 
     @GetMapping("/books/{id}")
-    public Book getBook(@PathVariable Long id){
-        return new Book(1L, "tdd", "kentbeck");
+    public Book getBook(@PathVariable Long id) {
+        return new Book(id, "tdd", "kentbeck");
     }
 
 }
