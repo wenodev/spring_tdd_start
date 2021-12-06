@@ -7,10 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-
-import java.awt.*;
-import java.awt.print.Book;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -39,7 +35,7 @@ class SpringTddStartApplicationTests {
 	}
 
 	@Test
-	void test_getBook(){
+	void test_detail(){
 		given()
 				.contentType(ContentType.JSON)
 				.param("id", 1)
