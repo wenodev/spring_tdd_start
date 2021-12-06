@@ -1,12 +1,21 @@
 package com.spring_tdd_start.service;
 
 import com.spring_tdd_start.domain.Book;
+import com.spring_tdd_start.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BookService {
 
-    public Book detail(Long id){
-        return new Book(id, "테스트주도개발", "켄트벡");
+    private final BookRepository bookRepository;
+
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
+
+    public Book detail(Long id){
+        return bookRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException());
+    }
+
 }
