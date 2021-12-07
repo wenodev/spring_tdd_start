@@ -1,6 +1,7 @@
 package com.spring_tdd_start.service;
 
 import com.spring_tdd_start.domain.Book;
+import com.spring_tdd_start.errors.BookNotFoundException;
 import com.spring_tdd_start.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ public class BookService {
 
     public Book detail(Long id){
         return bookRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException());
+                .orElseThrow(()-> new BookNotFoundException("no book id: " + id));
     }
 
 }
