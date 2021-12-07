@@ -25,7 +25,7 @@ class BookControllerTest {
     private BookService bookService;
 
     @Test
-    void test_detail() throws Exception {
+    void detail메소드는_id가존재한다면_200을리턴한다() throws Exception {
         given(bookService.detail(1L)).willReturn(new Book(1L, "테스트주도개발", "켄트벡"));
 
         mockMvc.perform(get("/books/1"))
