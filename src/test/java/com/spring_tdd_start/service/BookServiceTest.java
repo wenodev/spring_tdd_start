@@ -17,7 +17,7 @@ class BookServiceTest {
     private BookService bookService = new BookService(bookRepository);
 
     @Test
-    void detail() {
+    void test_detail() {
         given(bookRepository.findById(anyLong())).willReturn(Optional.of(new Book(1L, "테스트주도개발", "켄트벡")));
         Book book = bookService.detail(1L);
         assertThat(book.getName()).isEqualTo("테스트주도개발");
