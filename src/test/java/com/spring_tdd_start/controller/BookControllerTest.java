@@ -41,4 +41,10 @@ class BookControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    void list메소드는_200을리턴한다() throws Exception {
+        mockMvc.perform(get("/books"))
+                .andExpect(status().isOk());
+    }
+
 }
