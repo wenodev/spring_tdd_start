@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class BookController {
 
@@ -18,6 +20,11 @@ public class BookController {
     @GetMapping("/books/{id}")
     public Book detail(@PathVariable Long id) {
         return bookService.detail(id);
+    }
+
+    @GetMapping("/books")
+    public List<Book> list() {
+        return List.of(new Book(1L, "테스트주도개발", "켄트백"));
     }
 
 }
