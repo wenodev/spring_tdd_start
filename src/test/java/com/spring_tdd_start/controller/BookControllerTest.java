@@ -9,9 +9,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -43,8 +47,13 @@ class BookControllerTest {
 
     @Test
     void list메소드는_200을리턴한다() throws Exception {
+        given(bookService.list()).willReturn(List.of(new Book(1L, "테스트주도개발", "켄트벡")));
+
         mockMvc.perform(get("/books"))
+                .andExpect(content().string(containsString("켄트벡")))
                 .andExpect(status().isOk());
     }
+
+
 
 }
