@@ -5,6 +5,8 @@ import com.spring_tdd_start.errors.BookNotFoundException;
 import com.spring_tdd_start.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BookService {
 
@@ -19,4 +21,7 @@ public class BookService {
                 .orElseThrow(()-> new BookNotFoundException("no book id: " + id));
     }
 
+    public List<Book> list() {
+        return bookRepository.findAll();
+    }
 }

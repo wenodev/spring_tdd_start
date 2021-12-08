@@ -24,7 +24,7 @@ public class BookController {
 
     @GetMapping("/books")
     public List<Book> list() {
-        return List.of(new Book(1L, "테스트주도개발", "켄트백"));
+        return bookService.list();
     }
 
 }
