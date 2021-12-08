@@ -31,5 +31,4 @@ class BookServiceTest {
                 .hasMessage("no book id: " + 1000L);
     }
 
-
 }
