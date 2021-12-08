@@ -2,9 +2,8 @@ package com.spring_tdd_start.controller;
 
 import com.spring_tdd_start.domain.Book;
 import com.spring_tdd_start.service.BookService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +25,12 @@ public class BookController {
     public List<Book> list() {
         return bookService.list();
     }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/books")
+    public Book create(@RequestBody Book book){
+        return bookService.create(book);
+    }
+
 
 }
