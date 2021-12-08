@@ -1,7 +1,0 @@
-# response 한글깨짐을 해결하기 위한 charset 설정
-server:
-  servlet:
-    encoding:
-      enabled: true
-      charset: UTF-8
-      force: true
