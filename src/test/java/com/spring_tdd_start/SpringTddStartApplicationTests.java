@@ -38,9 +38,9 @@ class SpringTddStartApplicationTests {
 	void test_detail(){
 		given()
 				.contentType(ContentType.JSON)
-				.param("id", 1)
+				.param("id", 1L)
 		.when()
-				.get("/books/" + 1)
+				.get("/books/1")
 		.then()
 				.log().all()
 				.statusCode(HttpStatus.OK.value())
