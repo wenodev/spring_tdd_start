@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
@@ -19,7 +20,7 @@ class BookServiceTest {
     private BookService bookService = new BookService(bookRepository);
 
     @Test
-    void detail메소드는_id가존재한다면_200을리턴한다() {
+    void detail메소드는_id가존재한다면_book을리턴한다() {
         // arrange
         given(bookRepository.findById(1L)).willReturn(Optional.of(new Book(1L, "테스트주도개발", "켄트벡")));
 
@@ -31,14 +32,18 @@ class BookServiceTest {
     }
 
     @Test
-    void detail메소드는_id가존재하지않는다면_404를리턴한다(){
-        assertThatThrownBy(() -> bookService.detail(1000L))
+    void detail메소드는_id가존재하지않는다면_BookNotFoundException를던진다(){
+        assertThatThrownBy(() ->
+                // act
+                bookService.detail(1000L))
+
+                // assert
                 .isInstanceOf(BookNotFoundException.class)
                 .hasMessage("no book id: " + 1000L);
     }
 
     @Test
-    void list메소드는_bookList와_상태값200을_리턴한다(){
+    void list메소드는_bookList가존재한다면_bookList를리턴한다(){
         // arrange
         given(bookRepository.findAll()).willReturn(List.of(new Book(1L, "테스트주도개발", "켄트벡")));
 
@@ -51,7 +56,7 @@ class BookServiceTest {
     }
 
     @Test
-    void list메소드는_비어있는List와_상태값200을_리턴한다(){
+    void list메소드는_booklist가없다면_상태값200을_리턴한다(){
         // arrange
         given(bookRepository.findAll()).willReturn(List.of());
 
@@ -60,6 +65,18 @@ class BookServiceTest {
 
         //assert
         assertThat(books.size()).isEqualTo(0);
+    }
+
+    @Test
+    void create메소드는_book이생성된다면_생성된book을리턴한다(){
+        // arrange
+        given(bookRepository.save(any(Book.class))).willReturn(new Book(1L, "테스트주도개발", "켄트벡"));
+
+        // act
+        Book book = bookService.create(new Book(1L, "테스트주도개발", "켄트벡"));
+
+        // assert
+        assertThat(book.getName()).isEqualTo("테스트주도개발");
     }
 
 }
