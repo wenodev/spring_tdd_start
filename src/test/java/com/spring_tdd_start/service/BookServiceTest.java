@@ -56,7 +56,7 @@ class BookServiceTest {
     }
 
     @Test
-    void list메소드는_booklist가없다면_상태값200을_리턴한다(){
+    void list메소드는_booklist가_없다면_비어있는_리스트를_리턴한다(){
         // arrange
         given(bookRepository.findAll()).willReturn(List.of());
 
