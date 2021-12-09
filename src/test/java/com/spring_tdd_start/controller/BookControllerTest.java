@@ -16,8 +16,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -64,12 +63,25 @@ class BookControllerTest {
         given(bookService.list()).willReturn(List.of(new Book(1L, "테스트주도개발", "켄트벡")));
 
         // act
-        ResultActions perform = mockMvc.perform(post("/books")
+        ResultActions resultActions = mockMvc.perform(post("/books")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new Book(1L, "테스트주도개발", "켄트벡"))));
 
         // assert
-        perform.andExpect(status().isCreated());
+        resultActions.andExpect(status().isCreated());
+    }
+
+    @Test
+    void update_메소드는_상품이_수정된다면_수정된_상품정보와_상태값_200을_리턴한다() throws Exception {
+        // arrange
+
+        // act
+        ResultActions resultActions = mockMvc.perform(put("/books/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new Book("테스트주도개발", "켄트벡"))));
+
+        // assert
+        resultActions.andExpect(status().isOk());
     }
 
 }
