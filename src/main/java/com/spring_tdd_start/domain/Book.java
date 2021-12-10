@@ -40,4 +40,9 @@ public class Book {
     public String getAuthor() {
         return author;
     }
+
+    public void update(String name, String author) {
+        this.name = name;
+        this.author = author;
+    }
 }

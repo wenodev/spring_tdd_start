@@ -43,7 +43,6 @@ class SpringTddStartApplicationTests {
 				.get("/books/1")
 		.then()
 				.log().all()
-				.statusCode(HttpStatus.OK.value())
-				.assertThat().body("name", equalTo("테스트주도개발"));
+				.statusCode(HttpStatus.OK.value());
 	}
 }

@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -34,7 +35,7 @@ class BookControllerTest {
 
     @Test
     void detail메소드는_id가존재한다면_200을리턴한다() throws Exception {
-        given(bookService.detail(1L)).willReturn(new Book(1L, "테스트주도개발", "켄트벡"));
+        given(bookService.detail(eq(1L))).willReturn(new Book(1L, "테스트주도개발", "켄트벡"));
 
         mockMvc.perform(get("/books/1"))
                 .andExpect(content().string(containsString("켄트벡")))
@@ -74,9 +75,9 @@ class BookControllerTest {
     }
 
     @Test
-    void update_메소드는_상품이_수정된다면_수정된_상품정보와_상태값_200을_리턴한다() throws Exception {
+    void update_메소드는_id값이_존재한다면_상품을_수정하고_상품정보와_상태값_200을_리턴한다() throws Exception {
         // arrange
-        given(bookService.update(any(Long.class),any(Book.class))).willReturn(new Book("TDD", "Kent Beck"));
+        given(bookService.update(eq(1L), any(Book.class))).willReturn(new Book("TDD", "Kent Beck"));
 
         // act
         ResultActions resultActions = mockMvc.perform(put("/books/1")
@@ -87,6 +88,21 @@ class BookControllerTest {
         resultActions
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Kent Beck")));
+    }
+
+    @Test
+    void update_메소드는_id값이_없다면_상태값_404를_리턴한다()  throws Exception {
+        // arrange
+        given(bookService.update(eq(1000L), any(Book.class))).willThrow(new BookNotFoundException("no book id : 1000"));
+
+        // act
+        ResultActions resultActions = mockMvc.perform(put("/books/1000")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new Book("TDD", "Kent Beck"))));
+
+        // assert
+        resultActions
+                .andExpect(status().isNotFound());
     }
 
 }

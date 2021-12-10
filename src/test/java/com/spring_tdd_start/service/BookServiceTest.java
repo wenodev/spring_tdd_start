@@ -70,13 +70,40 @@ class BookServiceTest {
     @Test
     void create메소드는_book이생성된다면_생성된book을리턴한다(){
         // arrange
-        given(bookRepository.save(any(Book.class))).willReturn(new Book(1L, "테스트주도개발", "켄트벡"));
+        given(bookRepository.save(any(Book.class))).willReturn(new Book(2L, "테스트주도개발", "켄트벡"));
 
         // act
-        Book book = bookService.create(new Book(1L, "테스트주도개발", "켄트벡"));
+        Book book = bookService.create(new Book(2L, "테스트주도개발", "켄트벡"));
 
         // assert
         assertThat(book.getName()).isEqualTo("테스트주도개발");
+    }
+
+    @Test
+    void update_메소드는_존재하는_id가_주어진다면_수정하고_book을_리턴한다(){
+        // arrange
+        given(bookRepository.findById(1L)).willReturn(Optional.of(new Book(1L, "테스트주도개발", "켄트벡")));
+        given(bookRepository.save(any(Book.class))).willReturn(new Book(1L, "TDD", "Kent Beck"));
+
+        // act
+        Book book = bookService.update(1L, new Book( "TDD", "Kent Beck"));
+
+        // assert
+        assertThat(book.getId()).isEqualTo(1L);
+        assertThat(book.getName()).isEqualTo("TDD");
+    }
+
+    @Test
+    void update_메소드는_존재하지않는_id가_주어진다면_수정하고_book을_리턴한다(){
+        // arrange
+        given(bookRepository.findById(1000L)).willThrow(new BookNotFoundException("no book id : 1000"));
+
+        assertThatThrownBy(() ->
+                // act
+                bookService.update(1000L, new Book( "TDD", "Kent Beck")))
+                // assert
+                .isInstanceOf(BookNotFoundException.class)
+                .hasMessage("no book id : 1000");
     }
 
 }
