@@ -40,4 +40,8 @@ public class BookService {
 
         return bookRepository.save(book);
     }
+
+    public Book delete(long id) {
+        return new Book();
+    }
 }

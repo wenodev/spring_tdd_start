@@ -19,8 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(BookController.class)
 class BookControllerTest {
@@ -103,6 +102,21 @@ class BookControllerTest {
         // assert
         resultActions
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void delete_메소드는_id가_존재한다면_book을지우고_200을_리턴한다() throws Exception {
+        // arrange
+        given(bookService.delete(1L)).willReturn(new Book(1L, "테스트주도개발", "켄트벡"));
+
+        // act
+        ResultActions perform = mockMvc.perform(delete("/books/1"));
+
+        // assert
+        perform
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id").value(1L));
+
     }
 
 }
