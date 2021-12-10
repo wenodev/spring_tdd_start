@@ -28,4 +28,8 @@ public class BookService {
     public Book create(Book book) {
         return bookRepository.save(book);
     }
+
+    public Book update(Long id, Book book) {
+        return new Book(1L, "TDD", "Kent Beck");
+    }
 }

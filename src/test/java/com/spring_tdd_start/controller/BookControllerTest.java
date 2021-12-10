@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -60,7 +61,7 @@ class BookControllerTest {
     @Test
     void create메소드는_상품등록이된다면_등록된상품과_201을리턴한다() throws Exception {
         // arrange
-        given(bookService.list()).willReturn(List.of(new Book(1L, "테스트주도개발", "켄트벡")));
+        given(bookService.create(any(Book.class))).willReturn(new Book(1L, "테스트주도개발", "켄트벡"));
 
         // act
         ResultActions resultActions = mockMvc.perform(post("/books")
@@ -68,20 +69,24 @@ class BookControllerTest {
                 .content(objectMapper.writeValueAsString(new Book(1L, "테스트주도개발", "켄트벡"))));
 
         // assert
-        resultActions.andExpect(status().isCreated());
+        resultActions.andExpect(status().isCreated())
+                .andExpect(content().string(containsString("테스트주도개발")));
     }
 
     @Test
     void update_메소드는_상품이_수정된다면_수정된_상품정보와_상태값_200을_리턴한다() throws Exception {
         // arrange
+        given(bookService.update(any(Long.class),any(Book.class))).willReturn(new Book("TDD", "Kent Beck"));
 
         // act
         ResultActions resultActions = mockMvc.perform(put("/books/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Book("테스트주도개발", "켄트벡"))));
+                        .content(objectMapper.writeValueAsString(new Book("TDD", "Kent Beck"))));
 
         // assert
-        resultActions.andExpect(status().isOk());
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Kent Beck")));
     }
 
 }
